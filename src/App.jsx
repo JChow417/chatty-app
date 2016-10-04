@@ -26,8 +26,9 @@ const App = React.createClass({
 
   handleChatBarMessageEnter: function(newMessage) {
     console.log("handleChatBarMessageEnter <App />");
-    var id = this.state.data.messages.length
-    this.state.data.messages.push({id: newMessage.id, username: newMessage.username, content: newMessage.content});
+    var id = this.state.data.messages.length + 1;
+    console.log('IDDD',id);
+    this.state.data.messages.push({id: id, username: newMessage.username, content: newMessage.content});
     this.setState({data: this.state.data})
   },
 
