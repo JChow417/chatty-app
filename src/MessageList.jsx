@@ -6,7 +6,12 @@ const MessageList = React.createClass({
     console.log("rendering <MessageList/>");
     return (
       <div id="message-list">
-        <Message />
+        {this.props.messages.map((result) => (
+          <Message key={result.id} message={result}/>
+        ))}
+        <div className="message system">
+          Anonymous1 changed their name to nomnom.
+        </div>
      </div>
     );
   }
