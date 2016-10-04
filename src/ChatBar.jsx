@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
 
 const ChatBar = React.createClass({
-  // constructor(props) {
-  //   super(props);
-  //   this.handleChange = this.handleChange.bind(this);
-  // }),
+
   getInitialState: function() {
     return {
       valueFromInput: ''
@@ -19,7 +16,7 @@ const ChatBar = React.createClass({
   onInputKeyPress: function (event) {
     console.log("onInputKeyPress <ChatBar />");
     if(event.key ===  'Enter') {
-      this.props.onInputKeyPress({username: this.props.name, content: this.theInput.value});
+      this.props.onInputKeyPressEnter({username: this.props.name, content: this.theInput.value});
       this.setState({valueFromInput: ''});
     };
   },

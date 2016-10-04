@@ -24,10 +24,18 @@ const App = React.createClass({
     return {data};
   },
 
-  handleChatBarMessageEnter: function(newMessage) {
-    console.log("handleChatBarMessageEnter <App />");
+  componentDidMount: function() {
+    console.log("componentDidMount <App/>");
+    var chattySocket = new WebSocket('ws://localhost:8080');
+    this.socket = chattySocket;
+    chattySocket.onopen = function() {
+      console.log('Connected to server');
+    } ;
+  },
+
+  addMessage: function(newMessage) {
+    console.log("addMessage <App />");
     var id = this.state.data.messages.length + 1;
-    console.log('IDDD',id);
     this.state.data.messages.push({id: id, username: newMessage.username, content: newMessage.content});
     this.setState({data: this.state.data})
   },
@@ -55,7 +63,7 @@ const App = React.createClass({
           messages={this.state.data.messages}/>
         <ChatBar
           name={this.state.data.currentUser.name}
-          onInputKeyPress={this.handleChatBarMessageEnter}
+          onInputKeyPressEnter={this.addMessage}
         />
       </div>
     );
