@@ -2,26 +2,14 @@ import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 
-var data = {
-  currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
-  messages: [
-    {
-      id: 1,
-      username: "Bob",
-      content: "Has anyone seen my marbles?",
-    },
-    {
-      id: 2,
-      username: "Anonymous",
-      content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-    }
-  ]
-};
-
 const App = React.createClass({
 
   getInitialState: function() {
-    return {data};
+    var data = {
+      currentUser: {name: "Bob"},
+      messages: [] // messages coming from the server will be stored here as they arrive
+    };
+    return {data: data};
   },
 
   componentDidMount: function() {
@@ -30,18 +18,17 @@ const App = React.createClass({
     this.socket = chattySocket;
     chattySocket.onopen = function() {
       console.log('Connected to server');
-    } ;
+    };
+    this.socket.onmessage = (event) => {
+      event = JSON.parse(event.data);
+      this.state.data.messages.push({id: event.id, username: event.username, content: event.content});
+      this.setState({data: this.state.data});
+    };
   },
 
   addMessage: function(newMessage) {
     console.log("addMessage <App />");
-    var id = this.state.data.messages.length + 1;
-    this.state.data.messages.push({id: id, username: newMessage.username, content: newMessage.content});
-
     this.socket.send(JSON.stringify(newMessage));
-
-
-    this.setState({data: this.state.data});
   },
 
      // in App.jsx
