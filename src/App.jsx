@@ -24,18 +24,24 @@ const App = React.createClass({
     return {data};
   },
 
-   // in App.jsx
-  componentDidMount: function() {
-    console.log("componentDidMount <App />");
-    setTimeout(() => {
-      console.log("Simulating incoming message");
-      console.log(this.state);
-      // Add a new message to the list of messages in the data store
-      this.state.data.messages.push({id: 3, username: "Michelle", content: "Hello there!"});
-      // Update the state of the app component. This will call render()
-      this.setState({data: this.state.data})
-    }, 3000);
+  handleChatBarMessageEnter: function(newMessage) {
+    console.log("handleChatBarMessageEnter <App />");
+    var id = this.state.data.messages.length
+    this.state.data.messages.push({id: newMessage.id, username: newMessage.username, content: newMessage.content});
+    this.setState({data: this.state.data})
   },
+
+     // in App.jsx
+  // componentDidMount: function() {
+  //   setTimeout(() => {
+  //     console.log("Simulating incoming message");
+  //     console.log(this.state);
+  //     // Add a new message to the list of messages in the data store
+  //     this.state.data.messages.push({id: id, username: "Michelle", content: "Hello there!"});
+  //     // Update the state of the app component. This will call render()
+  //     this.setState({data: this.state.data})
+  //   }, 3000);
+  // },
 
   render: function () {
     console.log("rendering <App/>");
@@ -44,8 +50,12 @@ const App = React.createClass({
         <nav>
           <h1>Chatty</h1>
         </nav>
-        <MessageList messages={this.state.data.messages}/>
-        <ChatBar name={this.state.data.currentUser.name}/>
+        <MessageList
+          messages={this.state.data.messages}/>
+        <ChatBar
+          name={this.state.data.currentUser.name}
+          onInputKeyPress={this.handleChatBarMessageEnter}
+        />
       </div>
     );
   }
