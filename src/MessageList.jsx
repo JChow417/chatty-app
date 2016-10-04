@@ -1,11 +1,15 @@
 import React, {Component} from 'react';
+import Message from './Message.jsx';
 
 const MessageList = React.createClass({
   render: function () {
+    console.log("rendering <MessageList/>");
     return (
-      <h1>Message List</h1>
+      <div id="message-list">
+        <Message />
+     </div>
     );
   }
 });
 
-export default App;
+export default MessageList;
