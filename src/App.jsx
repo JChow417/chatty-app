@@ -37,7 +37,11 @@ const App = React.createClass({
     console.log("addMessage <App />");
     var id = this.state.data.messages.length + 1;
     this.state.data.messages.push({id: id, username: newMessage.username, content: newMessage.content});
-    this.setState({data: this.state.data})
+
+    this.socket.send(JSON.stringify(newMessage));
+
+
+    this.setState({data: this.state.data});
   },
 
      // in App.jsx
