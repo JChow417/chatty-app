@@ -7,7 +7,7 @@ const App = React.createClass({
   getInitialState: function() {
     var data = {
       usersOnline: "",
-      currentUser: {name: "Anonymous"},
+      currentUser: {name: "Anonymous", color: ""},
       messages: [] // messages coming from the server will be stored here as they arrive
     };
     return {data: data};
@@ -26,6 +26,11 @@ const App = React.createClass({
       if (eventData.type === 'usersOnline') {
         this.state.data.usersOnline = eventData.usersOnline;
         this.setState({data: this.state.data});
+
+      } else if (eventData.type === 'colorAssign') {
+        this.state.data.currentUser.color = eventData.color;
+        this.setState({data: this.state.data});
+
       } else {
         this.state.data.messages.push(eventData);
         this.setState({data: this.state.data});
@@ -47,6 +52,7 @@ const App = React.createClass({
     }
 
     newMessage.type = 'postMessage';
+    newMessage.color = this.state.data.currentUser.color;
     this.socket.send(JSON.stringify(newMessage));
   },
 

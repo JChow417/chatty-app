@@ -5,7 +5,7 @@ const Message = React.createClass({
     console.log("rendering <Message/>");
     return (
       <div className="message">
-        <span className="username">{this.props.message.username}</span>
+        <span className="username" style={{color: this.props.message.color}}>{this.props.message.username}</span>
         <span className="content">{this.props.message.content}</span>
       </div>
     );
