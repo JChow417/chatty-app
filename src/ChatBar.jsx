@@ -8,16 +8,22 @@ const ChatBar = React.createClass({
     };
   },
 
-  onInputChange: function() {
+  onNameChange: function(event) {
+    console.log("onNameChange <ChatBar />");
+    this.setState({name: event.target.value});
+  },
+
+  onInputChange: function(event) {
     console.log("onInputChange <ChatBar />");
-    this.setState({valueFromInput: this.theInput.value});
+    this.setState({value: event.target.value});
   },
 
   onInputKeyPress: function (event) {
     console.log("onInputKeyPress <ChatBar />");
     if(event.key ===  'Enter') {
-      this.props.onInputKeyPressEnter({username: this.props.name, content: this.theInput.value});
-      this.setState({valueFromInput: ''});
+      var name = this.state.name || "Anonymous";
+      this.props.onInputKeyPressEnter({username: name, content: this.state.value});
+      this.setState({value: ''});
     };
   },
 
@@ -30,14 +36,14 @@ const ChatBar = React.createClass({
           id="username"
           type="text"
           placeholder="Your Name (Optional)"
-          value={this.props.name}
+          value={this.state.name}
+          onChange={this.onNameChange}
         />
         <input
           id="new-message"
           type="text"
           placeholder="Type a message and hit ENTER"
-          value={this.state.valueFromInput}
-          ref={(input) => {this.theInput = input;}}
+          value={this.state.value}
           onChange={this.onInputChange}
           onKeyPress={this.onInputKeyPress}
         />

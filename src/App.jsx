@@ -31,18 +31,6 @@ const App = React.createClass({
     this.socket.send(JSON.stringify(newMessage));
   },
 
-     // in App.jsx
-  // componentDidMount: function() {
-  //   setTimeout(() => {
-  //     console.log("Simulating incoming message");
-  //     console.log(this.state);
-  //     // Add a new message to the list of messages in the data store
-  //     this.state.data.messages.push({id: id, username: "Michelle", content: "Hello there!"});
-  //     // Update the state of the app component. This will call render()
-  //     this.setState({data: this.state.data})
-  //   }, 3000);
-  // },
-
   render: function () {
     console.log("rendering <App/>");
     return (
