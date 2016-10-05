@@ -6,6 +6,7 @@ const App = React.createClass({
 
   getInitialState: function() {
     var data = {
+      usersOnline: "",
       currentUser: {name: "Anonymous"},
       messages: [] // messages coming from the server will be stored here as they arrive
     };
@@ -22,8 +23,13 @@ const App = React.createClass({
 
     this.socket.onmessage = (event) => {
       var eventData = JSON.parse(event.data);
-      this.state.data.messages.push(eventData);
-      this.setState({data: this.state.data});
+      if (eventData.type === 'usersOnline') {
+        this.state.data.usersOnline = eventData.usersOnline;
+        this.setState({data: this.state.data});
+      } else {
+        this.state.data.messages.push(eventData);
+        this.setState({data: this.state.data});
+      }
     };
   },
 
@@ -46,10 +52,12 @@ const App = React.createClass({
 
   render: function () {
     console.log("rendering <App/>");
+    var userOnlineDisplay = this.state.data.usersOnline === 1? '1 user online': `${this.state.data.usersOnline} users online`;
     return (
       <div className='wrapper'>
         <nav>
           <h1>Chatty</h1>
+          <span>{userOnlineDisplay}</span>
         </nav>
         <MessageList
           messages={this.state.data.messages}/>
