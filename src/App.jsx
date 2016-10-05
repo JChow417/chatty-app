@@ -6,7 +6,7 @@ const App = React.createClass({
 
   getInitialState: function() {
     var data = {
-      currentUser: {name: "Bob"},
+      currentUser: {name: "Anonymous"},
       messages: [] // messages coming from the server will be stored here as they arrive
     };
     return {data: data};
@@ -16,18 +16,31 @@ const App = React.createClass({
     console.log("componentDidMount <App/>");
     var chattySocket = new WebSocket('ws://localhost:8080');
     this.socket = chattySocket;
-    chattySocket.onopen = function() {
+    this.socket.onopen = () => {
       console.log('Connected to server');
     };
+
     this.socket.onmessage = (event) => {
-      event = JSON.parse(event.data);
-      this.state.data.messages.push({id: event.id, username: event.username, content: event.content});
+      var eventData = JSON.parse(event.data);
+      this.state.data.messages.push(eventData);
       this.setState({data: this.state.data});
     };
   },
 
   addMessage: function(newMessage) {
     console.log("addMessage <App />");
+    var NewUserName = newMessage.username;
+    var oldUserName = this.state.data.currentUser.name;
+
+    if (NewUserName !== oldUserName) {
+      var notification = {
+        'type': 'postNotification',
+        'content':`${oldUserName} has changed their name to ${NewUserName}`};
+      this.socket.send(JSON.stringify(notification));
+      this.state.data.currentUser.name = NewUserName;
+    }
+
+    newMessage.type = 'postMessage';
     this.socket.send(JSON.stringify(newMessage));
   },
 

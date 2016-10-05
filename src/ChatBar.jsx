@@ -4,7 +4,8 @@ const ChatBar = React.createClass({
 
   getInitialState: function() {
     return {
-      valueFromInput: ''
+      name: '',
+      value: ''
     };
   },
 
