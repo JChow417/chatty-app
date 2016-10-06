@@ -25,6 +25,8 @@ const ChatBar = React.createClass({
       var name = this.state.name || "Anonymous";
       this.props.onInputKeyPressEnter({username: name, content: this.state.value});
       this.setState({value: ''});
+      var messageBottom = document.getElementById("message-list");
+      // messageBottom.scrollTop = messageBottom.scrollHeight;
     };
   },
 

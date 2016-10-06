@@ -13,7 +13,10 @@ nav span { float: right; vertical-align: top; line-height: 40px;}
   display: inline-block; padding: 4px 0;
 }
 #message-list .message .username { flex: 15; margin-right: 16px; overflow: hidden; font-weight: 700;}
-#message-list .message .content { flex: 85; }
+#message-list .message .content { flex: 85; word-wrap: break-word;}
+#message-list .message span.text {display: block}
+#message-list .message span.image {display: block; max-width: 60%; overflow: hidden}
+#message-list .message span.image img {max-width: 100%;}
 #message-list .message.system { font-weight: 400; font-style: italic; }
 footer {
   height: 41px;

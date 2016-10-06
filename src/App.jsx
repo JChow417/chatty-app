@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
+import ReactDOM from 'react-dom';
 
 const App = React.createClass({
 
@@ -38,6 +39,19 @@ const App = React.createClass({
     };
   },
 
+  componentWillUpdate: function() {
+    var node = ReactDOM.findDOMNode(this.messageListRef);
+    this.shouldScrollBottom = Math.round((node.scrollTop + node.offsetHeight)/10) === Math.round(node.scrollHeight/10);
+    console.log('SCROOLL');
+  },
+
+  componentDidUpdate: function() {
+    if (this.shouldScrollBottom) {
+      var node = ReactDOM.findDOMNode(this.messageListRef);
+      node.scrollTop = node.scrollHeight
+    }
+  },
+
   addMessage: function(newMessage) {
     console.log("addMessage <App />");
     var NewUserName = newMessage.username;
@@ -66,9 +80,10 @@ const App = React.createClass({
           <span>{userOnlineDisplay}</span>
         </nav>
         <MessageList
+          ref={(input) => {this.messageListRef = input}}
           messages={this.state.data.messages}/>
         <ChatBar
-          name={this.state.data.currentUser.name}
+          // name={this.state.data.currentUser.name}
           onInputKeyPressEnter={this.addMessage}
         />
       </div>
@@ -76,11 +91,4 @@ const App = React.createClass({
   }
 });
 
-// class App extends Component {
-//   render() {
-//     return (
-//       <h1>Hello React :)</h1>
-//     );
-//   }
-// }
 export default App;
