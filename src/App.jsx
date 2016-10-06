@@ -16,47 +16,53 @@ const App = React.createClass({
 
   componentDidMount: function() {
     console.log("componentDidMount <App/>");
+    // CONNECTS TO SOCKET
     var chattySocket = new WebSocket('ws://localhost:8080');
     this.socket = chattySocket;
     this.socket.onopen = () => {
       console.log('Connected to server');
     };
 
+    // HANDLES INCOMING DATA FROM SOCKET
     this.socket.onmessage = (event) => {
       var eventData = JSON.parse(event.data);
+
       if (eventData.type === 'usersOnline') {
         this.state.data.usersOnline = eventData.usersOnline;
-        this.setState({data: this.state.data});
 
       } else if (eventData.type === 'colorAssign') {
         this.state.data.currentUser.color = eventData.color;
-        this.setState({data: this.state.data});
 
       } else {
         this.state.data.messages.push(eventData);
-        this.setState({data: this.state.data});
+
       }
+      this.setState({data: this.state.data});
     };
   },
 
-  componentWillUpdate: function() {
-    var node = ReactDOM.findDOMNode(this.messageListRef);
-    this.shouldScrollBottom = Math.round((node.scrollTop + node.offsetHeight)/10) === Math.round(node.scrollHeight/10);
-    console.log('SCROOLL');
-  },
+  // componentWillUpdate: function() {
+  //   // AUTO SCROLL
+  //   var node = ReactDOM.findDOMNode(this.messageListRef);
+  //   var currentPostion =  node.scrollTop + node.offsetHeight;
+  //   this.shouldScrollBottom =  currentPostion >= node.scrollHeight - node.offsetHeight / 3 || node.offsetHeight >= node.scrollHeight? 1: 0;
+  // },
 
   componentDidUpdate: function() {
-    if (this.shouldScrollBottom) {
-      var node = ReactDOM.findDOMNode(this.messageListRef);
-      node.scrollTop = node.scrollHeight
-    }
+    // AUTO SCROLL
+    var node = ReactDOM.findDOMNode(this.messageListRef);
+    node.scrollTop = node.scrollHeight + 9999;
+    // if (this.shouldScrollBottom) {
+    //   var node = ReactDOM.findDOMNode(this.messageListRef);
+    //   node.scrollTop = node.scrollHeight + 9999;
+    // }
   },
 
   addMessage: function(newMessage) {
     console.log("addMessage <App />");
+    // USER NAME CHANGE
     var NewUserName = newMessage.username;
     var oldUserName = this.state.data.currentUser.name;
-
     if (NewUserName !== oldUserName) {
       var notification = {
         'type': 'postNotification',
@@ -65,6 +71,7 @@ const App = React.createClass({
       this.state.data.currentUser.name = NewUserName;
     }
 
+    // USER MESSAGE
     newMessage.type = 'postMessage';
     newMessage.color = this.state.data.currentUser.color;
     this.socket.send(JSON.stringify(newMessage));
