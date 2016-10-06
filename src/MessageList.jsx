@@ -4,7 +4,7 @@ import MessageSystem from './MessageSystem.jsx';
 
 const MessageList = React.createClass({
   render: function () {
-    console.log("rendering <MessageList/>");
+    // console.log("rendering <MessageList/>");
     var messageNodes = this.props.messages.map((result) => {
       switch(result.type) {
         case "incomingMessage":

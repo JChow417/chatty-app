@@ -15,7 +15,7 @@ const App = React.createClass({
   },
 
   componentDidMount: function() {
-    console.log("componentDidMount <App/>");
+    // console.log("componentDidMount <App/>");
     // CONNECTS TO SOCKET
     var chattySocket = new WebSocket('ws://localhost:8080');
     this.socket = chattySocket;
@@ -59,16 +59,16 @@ const App = React.createClass({
   },
 
   addMessage: function(newMessage) {
-    console.log("addMessage <App />");
+    // console.log("addMessage <App />");
     // USER NAME CHANGE
-    var NewUserName = newMessage.username;
+    var newUserName = newMessage.username;
     var oldUserName = this.state.data.currentUser.name;
-    if (NewUserName !== oldUserName) {
+    if (newUserName !== oldUserName) {
       var notification = {
         'type': 'postNotification',
-        'content':`${oldUserName} has changed their name to ${NewUserName}`};
+        'content':`${oldUserName} has changed their name to ${newUserName}`};
       this.socket.send(JSON.stringify(notification));
-      this.state.data.currentUser.name = NewUserName;
+      this.state.data.currentUser.name = newUserName;
     }
 
     // USER MESSAGE
@@ -78,7 +78,7 @@ const App = React.createClass({
   },
 
   render: function () {
-    console.log("rendering <App/>");
+    // console.log("rendering <App/>");
     var userOnlineDisplay = this.state.data.usersOnline === 1? '1 user online': `${this.state.data.usersOnline} users online`;
     return (
       <div className='wrapper'>

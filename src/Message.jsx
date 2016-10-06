@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 const Message = React.createClass({
   render: function () {
-    console.log("rendering <Message/>");
+    // console.log("rendering <Message/>");
     var urlRegExp = /(https?:\/\/\S*\.(?:png|jpe?g|gif))/i;
     var contentArr = this.props.message.content.split(urlRegExp);
     var contentNodes = contentArr.map((result, i) => {

@@ -10,7 +10,7 @@ const ChatBar = React.createClass({
   },
 
   onNameChange: function(event) {
-    console.log("onNameChange <ChatBar />");
+    // console.log("onNameChange <ChatBar />");
     this.setState({name: event.target.value});
   },
 
@@ -20,7 +20,7 @@ const ChatBar = React.createClass({
   },
 
   onInputKeyPress: function (event) {
-    console.log("onInputKeyPress <ChatBar />");
+    // console.log("onInputKeyPress <ChatBar />");
     if(event.key ===  'Enter') {
       var name = this.state.name || "Anonymous";
       this.props.onInputKeyPressEnter({username: name, content: this.state.value});
@@ -31,7 +31,7 @@ const ChatBar = React.createClass({
   },
 
   render: function () {
-    console.log("rendering <ChatBar/>");
+    // console.log("rendering <ChatBar/>");
 
     return (
       <footer>
