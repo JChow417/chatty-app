@@ -1,3 +1,6 @@
+To see the Chatty-app Server please go to
+https://github.com/JChow417/chatty-app-server
+
 React Boilerplate
 =====================
 
